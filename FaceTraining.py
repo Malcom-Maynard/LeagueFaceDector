@@ -24,9 +24,9 @@ for root, dirs, files in os.walk(image_dir):
 
     for file in files:
         # looking for files that end with png and jpg
-        if file.endswith("png") or file.endswith("jpg") or file.endswith("HEIC"):
+        if file.endswith("png") or file.endswith("jpg") or file.endswith("jpeg"):
             path = os.path.join(root, file)
-            # print(path)
+            print(path)
 
             # creating a label for the images
             label = os.path.basename(os.path.dirname(
@@ -40,7 +40,7 @@ for root, dirs, files in os.walk(image_dir):
                 current_id += 1
 
             id_ = label_ids[label]
-            # print(label_ids)
+            print(label_ids)
 
             pil_image = Image.open(path).convert(
                 "L")  # turns images into grey scale
@@ -56,8 +56,8 @@ for root, dirs, files in os.walk(image_dir):
                 roi = image_array[y:y+h, x:x+w]
                 x_train.append(roi)
                 y_labels.append(id_)
-# print(y_labels)
-# print(x_train)
+print(y_labels)
+print(x_train)
 
 # saving all the Label ID's
 with open("labels.pickle", 'wb') as f:
