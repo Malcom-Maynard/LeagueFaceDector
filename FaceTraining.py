@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import pickle
 
+
 trained_face_data = cv2.CascadeClassifier(
     'data\haarcascade_frontalface_alt.xml')
 
@@ -45,7 +46,9 @@ for root, dirs, files in os.walk(image_dir):
             pil_image = Image.open(path).convert(
                 "L")  # turns images into grey scale
             size = (550, 500)
+
             finale_image = pil_image.resize(size, Image.ANTIALIAS)
+
             # adding the images into a SUPER array
             image_array = np.array(finale_image, "uint8")
             # print(image_array)
