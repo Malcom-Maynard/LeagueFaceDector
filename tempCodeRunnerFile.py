@@ -1,1 +1,1 @@
-from PIL import Image, ImageOps
+jankos

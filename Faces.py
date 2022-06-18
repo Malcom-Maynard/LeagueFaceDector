@@ -1,7 +1,28 @@
+from calendar import c
 from keras import models
-from PIL import Image, ImageOps
 import numpy as np
 import cv2
+from datetime import datetime
+
+import time
+from WebScraper import WebScraper
+
+
+def drawing_rectangles(grey, faces):
+    for (x, y, w, h) in faces:
+        # defining the ROI for the color and grey frame
+        roi_grey = grey[y : y + h, x : x + w]
+        roi_clor = frame[y : y + h, x : x + w]
+        img_item = "img.png"
+        cv2.imwrite(img_item, roi_grey)
+
+        # drawing rectangle around the ROI
+        color = (255, 0, 0)
+        stroke = 2
+        width = x + w
+        height = y + h
+        cv2.rectangle(frame, (x, y), (width, height), color, stroke)
+
 
 # loading in keras model
 model = models.load_model("keras_model.h5")
@@ -27,6 +48,10 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, frameWidth)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frameHeight)
 cap.set(cv2.CAP_PROP_GAIN, 0)
 
+
+# player region dictionary
+WebScrp = WebScraper()
+
 while True:
     # capture from by frame
     rect, frame = cap.read()
@@ -49,36 +74,63 @@ while True:
 
     # run the prediction
     predictions = model.predict(data)
+    print(predictions)
     index_max = np.argmax(predictions[0])
     conformation_thres = 85
     if predictions[0][index_max] * 100 >= conformation_thres:
-
+        vaild = True
         font = cv2.FONT_HERSHEY_SIMPLEX
         name = "this is " + classes[index_max]
-        color = (255, 255, 0)
-        stroke = 2
-        cv2.putText(frame, name, (300, 200), font, 1, color, stroke, cv2.LINE_AA)
+        color = (0, 0, 0)
+        stroke = 1
+        print(name)
+        # web scrapping attempt
+        WebScrp.set_name(classes[index_max].lower())
+        rank, lp, account = WebScrp.pull_infomation()
 
+        last_detected = datetime.now()
+
+        while (datetime.now() - last_detected).total_seconds() < 2:
+
+            cv2.putText(
+                frame,
+                "account: " + account,
+                (200, 380),
+                font,
+                1,
+                color,
+                stroke,
+                cv2.LINE_AA,
+            )
+            cv2.putText(
+                frame, "rank: " + rank, (200, 400), font, 1, color, stroke, cv2.LINE_AA
+            )
+            cv2.putText(
+                frame, "lp: " + lp, (200, 430), font, 1, color, stroke, cv2.LINE_AA
+            )
+            cv2.putText(
+                frame,
+                "status: zero bitches",
+                (200, 460),
+                font,
+                1,
+                color,
+                stroke,
+                cv2.LINE_AA,
+            )
+            cv2.imshow("frame", frame)
+
+            cv2.waitKey(1)
     # converting the frame to grey and looking for human faces
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(grey, scaleFactor=1.5, minNeighbors=4)
-    # drawing a rectangle on detected human faces
-    for (x, y, w, h) in faces:
-        # defining the ROI for the color and grey frame
-        roi_grey = grey[y : y + h, x : x + w]
-        roi_clor = frame[y : y + h, x : x + w]
-        img_item = "img.png"
-        cv2.imwrite(img_item, roi_grey)
+    faces = face_cascade.detectMultiScale(grey, scaleFactor=1.5, minNeighbors=5)
 
-        # drawing rectangle around the ROI
-        color = (255, 0, 0)
-        stroke = 2
-        width = x + w
-        height = y + h
-        cv2.rectangle(frame, (x, y), (width, height), color, stroke)
+    # drawing a rectangle on detected human faces
+    drawing_rectangles(grey, faces)
 
     # show the frame
     cv2.imshow("frame", frame)
+
     if cv2.waitKey(20) and 0xFF == ord("q"):
         break
 
