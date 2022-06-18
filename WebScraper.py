@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 class WebScraper:
     url = "https://na.op.gg/summoners/NA/OmegaOmori"
     player_ID = {
-        "amari": ["NA", "OmegaOmori"],
+        "amari": ["NA", "kidTeemo77"],
         "jankos": ["EUW", "G2BOOMER"],
         "spica": ["NA", "ASTROBOY99"],
     }
@@ -55,9 +55,25 @@ class WebScraper:
         with open("data.html", "w", encoding="utf-8") as file:
             file.write(str(soup))
 
-        rank = soup.find("div", {"class": "tier"}).getText()
-        lp = soup.find("div", {"class": "lp"}).getText()
+        try:
+            rank = soup.find("div", {"class": "tier"}).getText()
+            lp = soup.find("div", {"class": "lp"}).getText()
+        except:
+            rank = "unranked"
+            lp = "0"
         print(rank)
         print(lp)
+        message = ""
 
-        return rank, lp, self.player_ID[self.name][1]
+        choices = {
+            "iron": "Negative ass",
+            "bronze": "Whore *spits*",
+            "sliver": "No bitches",
+            "gold": "No bitches^2",
+            "Diamond": "Fatherless...",
+            "Master": "Wet napkin",
+            "unranked": "Sane human",
+        }
+        message = choices.get(rank.lower(), "default")
+
+        return rank, lp, self.player_ID[self.name][1], message

@@ -86,7 +86,7 @@ while True:
         print(name)
         # web scrapping attempt
         WebScrp.set_name(classes[index_max].lower())
-        rank, lp, account = WebScrp.pull_infomation()
+        rank, lp, account, message = WebScrp.pull_infomation()
 
         last_detected = datetime.now()
 
@@ -110,7 +110,7 @@ while True:
             )
             cv2.putText(
                 frame,
-                "status: zero bitches",
+                "status: " + message,
                 (200, 460),
                 font,
                 1,
