@@ -74,7 +74,7 @@ while True:
 
     # run the prediction
     predictions = model.predict(data)
-    print(predictions)
+
     index_max = np.argmax(predictions[0])
     conformation_thres = 85
     if predictions[0][index_max] * 100 >= conformation_thres:
@@ -88,6 +88,7 @@ while True:
         WebScrp.set_name(classes[index_max].lower())
         rank, lp, account, message = WebScrp.pull_infomation()
 
+        # displaying  data for 2 seconds on screen
         last_detected = datetime.now()
 
         while (datetime.now() - last_detected).total_seconds() < 2:
@@ -121,6 +122,7 @@ while True:
             cv2.imshow("frame", frame)
 
             cv2.waitKey(1)
+
     # converting the frame to grey and looking for human faces
     grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(grey, scaleFactor=1.5, minNeighbors=5)

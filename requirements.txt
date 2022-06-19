@@ -1,0 +1,6 @@
+beautifulsoup4==4.11.1
+cloudscraper==1.2.60
+keras==2.9.0
+numpy==1.21.0
+opencv_python==4.5.3.56
+requests==2.27.1
