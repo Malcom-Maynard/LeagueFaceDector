@@ -4,8 +4,9 @@ Hello, this program uses Open CV and Kervas in order to identify faces and scrap
 
    Adding new faces:
 
-		o To add new faces, you have updated the ‘keras_model.h5’ file. I used the site Teachable machine to generate 
-		said file and the ‘labels.txt’.
+		o To add new faces, you have updated the ‘keras_model.h5’ file. I used the site 
+		eachable machine to generate said file and the ‘labels.txt’.
+		
 		
 		
 		
@@ -13,4 +14,10 @@ Hello, this program uses Open CV and Kervas in order to identify faces and scrap
    
 		o	To add a new account, you have to add in the person’s name along with the region 
 			of their account and the account name
-		o	This is added to the dictionary found in the ‘WebScarper.py’ file under the WebScaraper class
+		o	This is added to the dictionary found in the ‘WebScarper.py’ file under 
+			the WebScaraper class
+
+
+
+   Links:
+   	https://teachablemachine.withgoogle.com/
