@@ -69,11 +69,11 @@ class WebScraper:
         message = ""
 
         choices = {
-            "iron": "Negative ass",
-            "bronze": "Whore *spits*",
-            "sliver": "No bitches",
-            "gold": "No bitches^2",
-            "diamond": "Fatherless...",
+            "iron": "Yikes",
+            "bronze": "Could be better",
+            "sliver": "eyy?",
+            "gold": "Nice job",
+            "diamond": "Wow there buddy",
             "master": "Wet napkin",
             "unranked": "Sane human",
         }
